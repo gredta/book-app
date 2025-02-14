@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@import '@fontsource/playfair-display';
+@import '@fontsource/lora';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@theme {
+  --color-navy: #202B72;
+  --color-lavender: #EADDFF;
+  --color-glass: #ffffff40;
+  --font-lora: Lora, sans-serif;
+  --font-playfair: Playfair Display, serif;
+}
+
+body{
+  @apply bg-[url(./assets/Gradient.jpg)]
+}
