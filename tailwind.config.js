@@ -12,6 +12,9 @@ export default {
       colors: {
 
       },
+      fontFamily: {
+        kaoly: ['Kaoly', 'sans-serif'], // Register "Kaoly"
+      },
     },
   },
   plugins: [],

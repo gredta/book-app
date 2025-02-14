@@ -13,7 +13,16 @@
   --color-glass: #ffffff40;
   --font-lora: Lora, sans-serif;
   --font-playfair: Playfair Display, serif;
+  --font-kaoly: Kaoly, sans-serif;
 }
+
+@font-face {
+  font-family: 'Kaoly';
+  src: url('/fonts/Kaoly.ttf') format('truetype'); /* Absolute path */
+  font-weight: normal;
+  font-style: normal;
+}
+
 
 body{
   @apply bg-[url(./assets/Gradient.jpg)]
