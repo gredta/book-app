@@ -25,5 +25,5 @@
 
 
 body{
-  @apply bg-[url(./assets/Gradient.jpg)]
+  @apply bg-[url(./assets/Gradient.jpg)] bg-no-repeat;
 }
