@@ -8,8 +8,8 @@ function App() {
 
   return (
 
-  <div className='bg-glass w-4/5 text-white mx-auto mt-20 rounded-3xl border-3 drop-shadow-lg grid grid-cols-4 mb-20'>
-    {/* Left Sidebar */}
+  <div className='bg-glass w-7/8 text-white mx-auto mt-10 rounded-3xl border-3 drop-shadow-lg grid grid-cols-4 mb-20'>
+  {/* Left Sidebar */}
       <div className='bg-glass text-navy rounded-l-3xl'>
         <h1 className='text-3xl font-kaoly font-bold text-center mt-8 mb-16'>Bookshelf</h1>
         <img className='w-20 mx-auto' src={"/generic-avatar.svg"} alt="avatar" />
@@ -36,17 +36,55 @@ function App() {
         </div>
       </div>
       <h2 className="font-playfair text-2xl text-navy my-8 font-black">Featured Books</h2>
-      <div className=' bg-glass rounded-xl px-8 mx-auto py-8 flex gap-8'>
-        <div className='w-45 h-60 bg-navy rounded-2xl'></div>
-        <div className='w-45 h-60 bg-navy rounded-2xl'></div>
-        <div className='w-45 h-60 bg-navy rounded-2xl'></div>
-        <div className='w-45 h-60 bg-navy rounded-2xl'></div>
-      </div>
-      <div className=' bg-glass rounded-xl px-8 mx-auto pb-8 flex gap-8 mb-10'>
-        <div className='w-45 h-60 bg-navy rounded-2xl'></div>
-        <div className='w-45 h-60 bg-navy rounded-2xl'></div>
-        <div className='w-45 h-60 bg-navy rounded-2xl'></div>
-        <div className='w-45 h-60 bg-navy rounded-2xl'></div>
+      <div className='bg-glass rounded-xl py-8 mb-10 grid grid-cols-4 gap-4 px-8'>
+        <div className=''>
+          <div className='w-45 h-60 bg-navy rounded-2xl'></div>
+          <h3 className="text-lg text-navy pt-2 font-lora">Title Ipsum</h3>
+        </div>
+        <div className=''>
+          <div className='w-45 h-60 bg-navy rounded-2xl'></div>
+          <h3 className="text-lg text-navy pt-2 font-lora">Title Ipsum</h3>
+        </div>
+        <div className=''>
+          <div className='w-45 h-60 bg-navy rounded-2xl'></div>
+          <h3 className="text-lg text-navy pt-2 font-lora">Title Ipsum</h3>
+        </div>
+        <div className=''>
+          <div className='w-45 h-60 bg-navy rounded-2xl'></div>
+          <h3 className="text-lg text-navy pt-2 font-lora">Title Ipsum</h3>
+        </div>
+        <div className=''>
+          <div className='w-45 h-60 bg-navy rounded-2xl'></div>
+          <h3 className="text-lg text-navy pt-2 font-lora">Title Ipsum</h3>
+        </div>
+        <div className=''>
+          <div className='w-45 h-60 bg-navy rounded-2xl'></div>
+          <h3 className="text-lg text-navy pt-2 font-lora">Title Ipsum</h3>
+        </div>
+        <div className=''>
+          <div className='w-45 h-60 bg-navy rounded-2xl'></div>
+          <h3 className="text-lg text-navy pt-2 font-lora">Title Ipsum</h3>
+        </div>
+        <div className=''>
+          <div className='w-45 h-60 bg-navy rounded-2xl'></div>
+          <h3 className="text-lg text-navy pt-2 font-lora">Title Ipsum</h3>
+        </div>
+        <div className=''>
+          <div className='w-45 h-60 bg-navy rounded-2xl'></div>
+          <h3 className="text-lg text-navy pt-2 font-lora">Title Ipsum</h3>
+        </div>
+        <div className=''>
+          <div className='w-45 h-60 bg-navy rounded-2xl'></div>
+          <h3 className="text-lg text-navy pt-2 font-lora">Title Ipsum</h3>
+        </div>
+        <div className=''>
+          <div className='w-45 h-60 bg-navy rounded-2xl'></div>
+          <h3 className="text-lg text-navy pt-2 font-lora">Title Ipsum</h3>
+        </div>
+        <div className=''>
+          <div className='w-45 h-60 bg-navy rounded-2xl'></div>
+          <h3 className="text-lg text-navy pt-2 font-lora">Title Ipsum</h3>
+        </div>
       </div>
     </div>
     

@@ -7,6 +7,15 @@ export default {
     corePlugins: {
     apply: true,
   },
+  safeList: [
+    'bg-glass',
+    'text-primary',
+    'text-navy',
+    'font-kaoly',
+    'font-lora',
+    'font-playfair',
+    'place-content-center',
+  ],
   theme: {
     extend: {
       colors: {

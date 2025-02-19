@@ -8,7 +8,7 @@
 
 
 @theme {
-  --color-navy: #202B72;
+  --color-navy: #323968;
   --color-lavender: #EADDFF;
   --color-glass: #ffffff40;
   --font-lora: Lora, sans-serif;
@@ -25,5 +25,5 @@
 
 
 body{
-  @apply bg-[url(./assets/Gradient.jpg)] bg-no-repeat;
+  @apply bg-[url(./assets/Gradient.jpg)] bg-no-repeat bg-cover;
 }
