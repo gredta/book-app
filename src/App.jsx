@@ -52,7 +52,6 @@ function App() {
       .then((data) => {
         console.log('Fetched books:', data);
         setBooks(data);
-        setCurrentPage(1); // Reset to the first page after a new search
       })
       .catch((error) => console.error('Error fetching books:', error));
   };
@@ -62,6 +61,7 @@ function App() {
   console.log('Filtered books:', filteredBooks.length);
   console.log('Current books:', currentBooks.length);
   console.log('Current page:', currentPage);
+  
 
   return (
     <div className='bg-glass w-7/8 text-white mx-auto mt-10 rounded-3xl border-3 drop-shadow-lg grid grid-cols-4 mb-20'>
@@ -86,50 +86,72 @@ function App() {
       <div className='w-8/9 mx-auto rounded-r-3xl col-span-3 '>
         <div className='mt-8 bg-glass rounded-xl px-4 py-2 my-12 flex place-content-between'>
           <div className="text-navy justify-left flex items-center gap-4">
-            <Icons.Menu className="w-5 h-5 text-primary" />
-            <input
-              type="text"
-              placeholder="Search for books..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="p-2 rounded-lg border border-none focus:outline-none focus:border-primary"
-            />
+            <Icons.Menu className="w-5 h-5 text-primary cursor-pointer" />
+                <input
+                  type="text"
+                  placeholder="Search for books..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearch(); // Trigger search when Enter key is pressed
+                    }
+                  }}
+                  className="p-2 rounded-lg border border-none focus:outline-none focus:border-primary"
+                />
           </div>
           <div className="flex justify-right items-center text-navy">
             <button
               onClick={handleSearch}
-              className="bg-primary text-navy p-2 rounded-lg hover:bg-primary-dark transition-colors"
+              className="bg-primary text-navy p-2 rounded-lg hover:bg-primary-dark transition-colors cursor-pointer"
             >
               <Icons.Search className="w-5 h-5" />
             </button>
           </div>
         </div>
         <h2 className="font-playfair text-2xl text-navy my-8 font-black">Featured Books</h2>
-        <div className='bg-glass rounded-xl py-8 mb-10 grid grid-cols-4 gap-4 px-8'>
+          <div className='bg-glass rounded-xl py-8 mb-10 grid grid-cols-4 gap-4 px-8'>
           {currentBooks.map((book) => (
-            <div key={book.id} className=''>
-              <img
-                src={book.thumbnail}
-                alt={book.title}
-                className="w-45 h-60 bg-navy rounded-2xl object-cover"
-                onError={(e) => {
-                  e.target.src = 'https://via.placeholder.com/150'; // Fallback if the thumbnail fails to load
-                }}
-              />
-              <h3 className="text-lg text-navy pt-2 font-lora">{book.title}</h3>
-              <p className="text-sm text-navy font-lora">{book.author}</p>
-            </div>
-          ))}
-        </div>
+  <div key={book.id} className=''>
+    <img
+      src={book.thumbnail}
+      alt={book.title}
+      className="w-45 h-60 bg-navy rounded-2xl object-cover cursor-pointer"
+      onError={(e) => {
+        e.target.src = 'https://via.placeholder.com/150'; // Fallback if the thumbnail fails to load
+      }}
+    />
+    <h3 className="text-lg text-navy pt-2 font-lora cursor-pointer">{book.title}</h3>
+    <p className="text-sm text-navy font-lora">{book.author}</p>
+
+    {/* Log the categories to inspect them */}
+    <div>
+      <p className="text-sm text-navy font-lora">
+        Categories: {JSON.stringify(book.categories)}
+      </p>
+    </div>
+
+    {/* Render categories */}
+    {book.categories && Array.isArray(book.categories) ? (
+      <p className="text-sm text-navy font-lora">{book.categories.join(", ")}</p>
+    ) : (
+      <p className="text-sm text-navy font-lora">
+  {book.categories && Array.isArray(book.categories)
+    ? book.categories.join(", ")
+    : "No categories available"}
+</p>
+    )}
+  </div>
+))}
+          </div>
 
         {/* Pagination Controls */}
-        <div className="flex justify-center gap-2 mt-8">
+        <div className="flex justify-center gap-2 mt-8 mb-8">
           <button
             onClick={prevPage}
             disabled={currentPage === 1}
-            className="bg-primary text-white p-2 rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50"
-          >
-            Previous
+            className="bg-primary text-navy rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50"
+          ><Icons.ArrowLeft className="w-7 h-7 text-primary" />
           </button>
 
           {/* Page Numbers */}
@@ -139,7 +161,7 @@ function App() {
               onClick={() => setCurrentPage(number)}
               className={`p-2 rounded-lg ${
                 currentPage === number
-                  ? 'bg-primary text-white' // Highlight the current page
+                  ? 'bg-primary text-navy' // Highlight the current page
                   : 'bg-gray-200 text-navy hover:bg-gray-300' // Default style for other pages
               }`}
             >
@@ -150,9 +172,8 @@ function App() {
           <button
             onClick={nextPage}
             disabled={currentPage === totalPages}
-            className="bg-primary text-white p-2 rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50"
-          >
-            Next
+            className="bg-primary text-navy rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50"
+          ><Icons.ArrowRight className="w-7 h-7 text-primary" />
           </button>
         </div>
       </div>

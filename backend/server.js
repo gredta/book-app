@@ -9,33 +9,51 @@ const PORT = 5001;
 app.use(cors());
 app.use(express.json());
 
-// Fetch books from Open Library API
+// Fetch books by search query
 app.get('/api/books', async (req, res) => {
-  const { query } = req.query; // Get search query from the frontend
+    const { query } = req.query;
+  
+    try {
+      // Step 1: Search for books
+      const searchResponse = await axios.get(
+        `https://openlibrary.org/search.json?q=${query}`
+      );
+  
+      // Step 2: Fetch details for each book (including categories)
+      const books = await Promise.all(
+        searchResponse.data.docs.slice(0, 10).map(async (book) => {
+          const workId = book.key; // Extract the work ID
+          const detailsResponse = await axios.get(
+            `https://openlibrary.org${workId}.json`
+          );
+          console.log('Full book details:', detailsResponse.data);
+console.log('Subjects:', detailsResponse.data.subjects);
 
-  try {
-    const response = await axios.get(
-      `https://openlibrary.org/search.json?q=${query}`
-    );
-
-    // Format the data for the frontend
-    const books = response.data.docs
-      .map((book) => ({
-        id: book.key, // Use the book key as the ID
-        title: book.title,
-        author: book.author_name ? book.author_name.join(', ') : 'Unknown Author',
-        thumbnail: book.cover_i
-          ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` // Medium-sized cover
-          : '', // Fallback for missing covers
-      }))
-      .filter((book) => book.thumbnail); // Filter out books without thumbnails
-
-    res.json(books);
-  } catch (error) {
-    console.error('Error fetching books from Open Library API:', error);
-    res.status(500).json({ message: 'Error fetching books', error });
-  }
-});
+  
+          // Log the subjects (categories) for debugging
+          console.log('Subjects for book:', detailsResponse.data.subjects);
+  
+          return {
+            id: workId,
+            title: book.title,
+            author: book.author_name?.[0] || 'Unknown Author',
+            thumbnail: book.cover_i
+                ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
+                : 'https://via.placeholder.com/150',  // Fallback if no image
+            categories: detailsResponse.data.subjects || [],  // Use an empty array as fallback if no subjects
+        };
+        })
+      );
+  
+      res.json(books);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+      res.status(500).json({ message: 'Error fetching books', error });
+    }
+  });
+  
+  
+  
 
 // Start the server
 app.listen(PORT, () => {
