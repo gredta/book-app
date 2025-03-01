@@ -52,6 +52,7 @@ function App() {
       .then((data) => {
         console.log('Fetched books:', data);
         setBooks(data);
+        setCurrentPage(1); // Reset to the first page after a new search
       })
       .catch((error) => console.error('Error fetching books:', error));
   };
@@ -61,7 +62,6 @@ function App() {
   console.log('Filtered books:', filteredBooks.length);
   console.log('Current books:', currentBooks.length);
   console.log('Current page:', currentPage);
-  
 
   return (
     <div className='bg-glass w-7/8 text-white mx-auto mt-10 rounded-3xl border-3 drop-shadow-lg grid grid-cols-4 mb-20'>
@@ -111,38 +111,20 @@ function App() {
         </div>
         <h2 className="font-playfair text-2xl text-navy my-8 font-black">Featured Books</h2>
           <div className='bg-glass rounded-xl py-8 mb-10 grid grid-cols-4 gap-4 px-8'>
-          {currentBooks.map((book) => (
-  <div key={book.id} className=''>
-    <img
-      src={book.thumbnail}
-      alt={book.title}
-      className="w-45 h-60 bg-navy rounded-2xl object-cover cursor-pointer"
-      onError={(e) => {
-        e.target.src = 'https://via.placeholder.com/150'; // Fallback if the thumbnail fails to load
-      }}
-    />
-    <h3 className="text-lg text-navy pt-2 font-lora cursor-pointer">{book.title}</h3>
-    <p className="text-sm text-navy font-lora">{book.author}</p>
-
-    {/* Log the categories to inspect them */}
-    <div>
-      <p className="text-sm text-navy font-lora">
-        Categories: {JSON.stringify(book.categories)}
-      </p>
-    </div>
-
-    {/* Render categories */}
-    {book.categories && Array.isArray(book.categories) ? (
-      <p className="text-sm text-navy font-lora">{book.categories.join(", ")}</p>
-    ) : (
-      <p className="text-sm text-navy font-lora">
-  {book.categories && Array.isArray(book.categories)
-    ? book.categories.join(", ")
-    : "No categories available"}
-</p>
-    )}
-  </div>
-))}
+            {currentBooks.map((book) => (
+              <div key={book.id} className=''>
+                <img
+                  src={book.thumbnail}
+                  alt={book.title}
+                  className="w-45 h-60 bg-navy rounded-2xl object-cover cursor-pointer"
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/150'; // Fallback if the thumbnail fails to load
+                  }}
+                />
+                <h3 className="text-lg text-navy pt-2 font-lora cursor-pointer">{book.title}</h3>
+                <p className="text-sm text-navy font-lora">{book.author}</p>
+              </div>
+            ))}
           </div>
 
         {/* Pagination Controls */}
