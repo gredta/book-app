@@ -108,7 +108,7 @@ function Home() {
         <div className='bg-glass rounded-xl py-8 mb-10 grid grid-cols-4 gap-4 px-8'>
           {currentBooks.map((book) => (
             <div key={book.id} className=''>
-              <Link to={`/book/${book.id}`}>
+              <Link to={`/book/${book.id.replace('/works/', '')}`}>
                 <img
                   src={book.thumbnail}
                   alt={book.title}
