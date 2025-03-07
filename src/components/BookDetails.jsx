@@ -33,7 +33,7 @@ function BookDetails() {
   }, [id]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return ;
   }
 
   if (!book) {
