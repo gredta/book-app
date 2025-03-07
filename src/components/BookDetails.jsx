@@ -10,19 +10,23 @@ function BookDetails() {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await fetch(`https://openlibrary.org/api/books?bibkeys=OLID:${id}&format=json&jscmd=data`);
+        const response = await fetch(
+          `http://localhost:5001/api/books/${id}`
+        );
         if (!response.ok) {
           throw new Error('Failed to fetch book details');
         }
         const data = await response.json();
-        setBook(data[`OLID:${id}`]); // Extract book details from the response
+        console.log('API Response:', data); // Log the API response
+        setBook(data);
       } catch (error) {
         console.error('Error fetching book details:', error);
+        setError(error.message);
       } finally {
         setIsLoading(false);
       }
     };
-
+  
     fetchBookDetails();
   }, [id]);
 
@@ -41,20 +45,18 @@ function BookDetails() {
       </Link>
       <div className="mt-8">
         <img
-          src={book.cover?.large || 'https://via.placeholder.com/150'}
-          alt={book.title}
+          src={book.thumbnail || 'https://via.placeholder.com/150'}
+          alt={book.title || 'No Title Available'}
           className="w-48 h-64 object-cover rounded-lg"
         />
-        <h1 className="text-3xl font-bold mt-4">{book.title}</h1>
+        <h1 className="text-3xl font-bold mt-4">{book.title || 'No Title Available'}</h1>
         <p className="text-lg text-gray-600 mt-2">
-          by {book.authors?.map((author) => author.name).join(', ')}
+          by {book.author || 'Unknown Author'}
         </p>
         <p className="mt-4">{book.description || 'No description available.'}</p>
         <div className="mt-6">
           <h2 className="text-xl font-bold">Details</h2>
-          <p>Published: {book.publish_date}</p>
-          <p>Publisher: {book.publishers?.map((publisher) => publisher.name).join(', ')}</p>
-          <p>Pages: {book.number_of_pages || 'N/A'}</p>
+          <p>Categories: {book.categories?.join(', ') || 'No categories available.'}</p>
         </div>
       </div>
     </div>

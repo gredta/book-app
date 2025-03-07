@@ -108,16 +108,16 @@ function Home() {
         <div className='bg-glass rounded-xl py-8 mb-10 grid grid-cols-4 gap-4 px-8'>
           {currentBooks.map((book) => (
             <div key={book.id} className=''>
-              <Link to={`/book/${book.id.replace('/works/', '')}`}>
-                <img
-                  src={book.thumbnail}
-                  alt={book.title}
-                  className="w-45 h-60 bg-navy rounded-2xl object-cover cursor-pointer"
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/150';
-                  }}
-                />
-              </Link>
+<Link to={`/book/${book.id.replace('/works/', '')}`}>
+  <img
+    src={book.thumbnail}
+    alt={book.title}
+    className="w-45 h-60 bg-navy rounded-2xl object-cover cursor-pointer"
+    onError={(e) => {
+      e.target.src = 'https://via.placeholder.com/150';
+    }}
+  />
+</Link>
               <h3 className="text-lg text-navy pt-2 font-lora cursor-pointer">{book.title}</h3>
               <p className="text-sm text-navy font-lora">{book.author}</p>
             </div>

@@ -6,54 +6,49 @@ const app = express();
 const PORT = 5001;
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET'],
+  })
+);
 app.use(express.json());
 
-// Fetch books by search query
-app.get('/api/books', async (req, res) => {
-    const { query } = req.query;
-  
-    try {
-      // Step 1: Search for books
-      const searchResponse = await axios.get(
-        `https://openlibrary.org/search.json?q=${query}`
-      );
-  
-      // Step 2: Fetch details for each book (including categories)
-      const books = await Promise.all(
-        searchResponse.data.docs.slice(0, 10).map(async (book) => {
-          const workId = book.key; // Extract the work ID
-          const detailsResponse = await axios.get(
-            `https://openlibrary.org${workId}.json`
-          );
-          console.log('Full book details:', detailsResponse.data);
-console.log('Subjects:', detailsResponse.data.subjects);
+// Fetch a single book by ID
+app.get('/api/books/:id', async (req, res) => {
+  const { id } = req.params;
 
-  
-          // Log the subjects (categories) for debugging
-          console.log('Subjects for book:', detailsResponse.data.subjects);
-  
-          return {
-            id: workId,
-            title: book.title,
-            author: book.author_name?.[0] || 'Unknown Author',
-            thumbnail: book.cover_i
-                ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
-                : 'https://via.placeholder.com/150',  // Fallback if no image
-            categories: detailsResponse.data.subjects || [],  // Use an empty array as fallback if no subjects
-        };
-        })
-      );
-  
-      res.json(books);
-    } catch (error) {
-      console.error('Error fetching books:', error);
-      res.status(500).json({ message: 'Error fetching books', error });
-    }
-  });
-  
-  
-  
+  try {
+    // Fetch book details from OpenLibrary
+    const detailsResponse = await axios.get(
+      `https://openlibrary.org/works/${id}.json`
+    );
+
+    // Fetch cover image (if available)
+    const coverResponse = await axios.get(
+      `https://openlibrary.org/works/${id}/editions.json`
+    );
+
+    // Extract the first cover image from the editions
+    const coverId = coverResponse.data.entries[0]?.covers?.[0];
+
+    const book = {
+      id: detailsResponse.data.key,
+      title: detailsResponse.data.title,
+      author: detailsResponse.data.authors?.[0]?.name || 'Unknown Author',
+      thumbnail: coverId
+        ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`
+        : 'https://via.placeholder.com/150',
+      description: detailsResponse.data.description?.value || 'No description available.',
+      categories: detailsResponse.data.subjects || [],
+    };
+
+    res.json(book);
+  } catch (error) {
+    console.error('Error fetching book details:', error);
+    res.status(500).json({ message: 'Error fetching book details', error });
+  }
+});
 
 // Start the server
 app.listen(PORT, () => {
